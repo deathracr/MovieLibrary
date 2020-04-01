@@ -27,5 +27,5 @@ task Test {
 }
 
 task Deploy -depends Analyze, Test {
-    Invoke-PSDeploy -Path '.\ServerInfo.psdeploy.ps1' -Force -Verbose:$VerbosePreference
+    Invoke-PSDeploy -Path '.\MovieLibrary.psdeploy.ps1' -Force -Verbose:$VerbosePreference
 }
