@@ -39,7 +39,7 @@ function Format-AsMovieNameAndYear
             #region begin Execute write commands - Rename folder using new clean string with title and year values.
             if ( $Response.Response -eq "True" )
             {
-                $RenameTo = Set-SpecialCharTo -TargetString (Get-NewFolderName $Response) -Set FileSystem
+                $RenameTo = Rename-SpecialCharTo -TargetString (Get-NewFolderName $Response) -Set FileSystem
                 Write-Progress -Activity Updating -Status 'Progress->' -PercentComplete $(($i/$Directories.Length)*100) -CurrentOperation "`t**Determined $RenameTo**`n"
             }
 

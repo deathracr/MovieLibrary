@@ -14,7 +14,7 @@
  .Example
 
 #>
-Function Set-SpecialCharTo
+Function Rename-SpecialCharTo
 {
     param
     (
@@ -32,17 +32,19 @@ Function Set-SpecialCharTo
     )
 
 # Unwanted characters (includes spaces and '-') converted to a regex:
+    Process {
+        switch ($Set)
+        {
+            "FileSystem" { $SpecChars = '/', '\',':','*','?', '"', '<', '>', '|' }
+            "URL" { <# $SpecChars = '/', '\',':','*','?', '"', '<', '>', '|' #> }
+            "Custom" { $SpecChars = $Custom }
+        }
 
-    switch ($Set)
-    {
-        "FileSystem" { $SpecChars = '/', '\',':','*','?', '"', '<', '>', '|' }
-        "URL" { <# $SpecChars = '/', '\',':','*','?', '"', '<', '>', '|' #> }
-        "Custom" { $SpecChars = $Custom }
+        $remspecchars = [string]::join('|',($SpecChars | ForEach-Object {[regex]::escape($_)}))
+
+        # Remove unwanted characters
+
+        $TargetString -replace $remspecchars, $NewCharacter
+
     }
-
-    $remspecchars = [string]::join('|',($SpecChars | ForEach-Object {[regex]::escape($_)}))
-
-    # Remove unwanted characters
-
-    $TargetString -replace $remspecchars, $NewCharacter
 }

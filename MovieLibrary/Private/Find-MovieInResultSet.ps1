@@ -28,7 +28,7 @@
         else {$local:SearchObject = $local:ResultSet}
         foreach ($local:Result in $local:SearchObject)
         {
-            $local:Result.Title = Set-SpecialCharTo -TargetString $local:Result.Title -Set Custom -Custom  $DisAllowedChars
+            $local:Result.Title = Rename-SpecialCharTo -TargetString $local:Result.Title -Set Custom -Custom  $DisAllowedChars
             $local:Result.Title = $local:Result.Title -replace  '\s+', ' '
             $local:MATokens = $local:MatchAgainst.Title.Split(" ") | ForEach-Object {[regex]::Escape($_)}
             $local:RSTokens = $local:Result.Title.Split(" ")

@@ -14,7 +14,7 @@ $Deliminator = Get-Deliminator $folder_name
 function Get-Deliminator {
     Param(
         [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty]
+        [ValidateNotNullOrEmpty()]
         [string]
         $folder_name,
         [string[]]
