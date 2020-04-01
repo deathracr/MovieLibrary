@@ -1,8 +1,13 @@
-﻿$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
+﻿$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
+$here = "$( (Split-Path -Parent $MyInvocation.MyCommand.Path) -replace 'Tests', '')MovieLibrary\Public"
+if ( -not ((Test-Path -Path "$here\$sut") -eq $true) )
+{
+    $here = "$((Split-Path -Parent $MyInvocation.MyCommand.Path) -replace 'Tests', '')MovieLibrary\Private"
+}
 . "$here\$sut"
 
-. .\settings.ps1
+. "$(Split-Path -Parent $MyInvocation.MyCommand.Path)\settings.ps1"
+
 Describe "Get-NewFolderName" {
     It "Creates string from Movie object" {
         $Movie = [PSCustomObject]@{
