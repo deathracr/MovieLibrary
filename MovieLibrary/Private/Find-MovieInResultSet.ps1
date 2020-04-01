@@ -6,7 +6,9 @@
         $ResultSet,
         [Parameter()]
         [PSObject]
-        $MatchAgainst
+        $MatchAgainst,
+        [string[]]
+        $DisAllowedChars = @("(",")","[","]","-","#")
     )
     $Response = $null
     if ($local:ResultSet.totalResults -gt 1 -and  [bool]($MatchAgainst.PSobject.Properties.name -match "Series") ) 
@@ -26,7 +28,7 @@
         else {$local:SearchObject = $local:ResultSet}
         foreach ($local:Result in $local:SearchObject)
         {
-            $local:Result.Title = Set-SpecialCharTo -TargetString $local:Result.Title -Set Custom -Custom  $Global:DisAllowedChars
+            $local:Result.Title = Set-SpecialCharTo -TargetString $local:Result.Title -Set Custom -Custom  $DisAllowedChars
             $local:Result.Title = $local:Result.Title -replace  '\s+', ' '
             $local:MATokens = $local:MatchAgainst.Title.Split(" ") | ForEach-Object {[regex]::Escape($_)}
             $local:RSTokens = $local:Result.Title.Split(" ")

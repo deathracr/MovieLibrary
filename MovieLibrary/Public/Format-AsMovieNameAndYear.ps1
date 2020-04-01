@@ -26,7 +26,8 @@ function Format-AsMovieNameAndYear
 
     foreach ($Directory in $Directories)
     {
-        write-host "evaluating $($Directory.Name)"
+        $i++
+        Write-Progress -Activity Updating -Status 'Progress->' -PercentComplete $(($i/$Directories.Length)*100) -CurrentOperation "`n`tEvaluating $($Directory.Name)"
         # #processed => "A Private War (2018)"
         if ( -not ($Directory -match " \(\d{4}\)$") )
         {
@@ -39,7 +40,7 @@ function Format-AsMovieNameAndYear
             if ( $Response.Response -eq "True" )
             {
                 $RenameTo = Set-SpecialCharTo -TargetString (Get-NewFolderName $Response) -Set FileSystem
-                write-host "determined $RenameTo"
+                Write-Progress -Activity Updating -Status 'Progress->' -PercentComplete $(($i/$Directories.Length)*100) -CurrentOperation "`t**Determined $RenameTo**`n"
             }
 
             If ( $RenameTo.Length -gt 1 )

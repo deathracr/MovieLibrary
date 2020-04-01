@@ -21,7 +21,9 @@ function ConvertTo-MovieObject {
     (
         [string]$Directory,
         [ValidateSet("\.","-","_"," ")]
-        [string]$Deliminator
+        [string]$Deliminator,
+        [string[]]
+        $DisAllowedChars =  @("(",")","[","]","-","#")
     )
     #used to get the date out of the path name sting
     $date_expr =  @("\b\d{4}\b")
@@ -43,7 +45,7 @@ function ConvertTo-MovieObject {
                 not first token and so if pattern 4 digits, then likely date, clean out unwanted chars
                 break from loop
                 #>
-                $year = Set-SpecialCharTo -TargetString $tokens[$i] -Set Custom $Global:DisAllowedChars
+                $year = Rename-SpecialCharTo -TargetString $tokens[$i] -Set Custom $DisAllowedChars
                 $i = $tokens.Count
             }
         }

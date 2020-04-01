@@ -10,7 +10,7 @@ task Analyze {
     $saResults = New-Object -TypeName System.Collections.ArrayList
     foreach ($script in $scripts)
     {
-        $saResults = Invoke-ScriptAnalyzer -Path $script -Severity @('Error'<#,'Warning'#>) -Recurse -Verbose:$false
+        $saResults = Invoke-ScriptAnalyzer -Path $script -Severity @('Error','Warning') -Recurse -Verbose:$false
         if ($saResults) {
             $saResults | Format-Table
             Write-Error -Message 'One or more Script Analyzer errors/warnings where found. Build cannot continue!'

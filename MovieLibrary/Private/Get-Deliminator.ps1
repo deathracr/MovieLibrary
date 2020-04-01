@@ -12,21 +12,28 @@ $Deliminator = Get-Deliminator $folder_name
 
 #>
 function Get-Deliminator {
-    Param([string]$folder_name)
+    Param(
+        [Parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty]
+        [string]
+        $folder_name,
+        [string[]]
+        $Delimiters = @("\.","-","_"," ")
+    )
 
     $split_on_count = 0
     $split_on = 0
     $matches_count = 0
 
     #finds the character that is most likely to be the delimeter.  Problem with junk in front of movie title that needs to be solved.
-    for ($i = 0; $i -lt $Global:Delimiters.Count; $i++)
+    for ($i = 0; $i -lt $Delimiters.Count; $i++)
     {
-        $matches_count = ([regex]::Matches($folder_name, $Global:Delimiters.item($i))).count
+        $matches_count = ([regex]::Matches($folder_name, $Delimiters.item($i))).count
         if ($split_on_count -lt $matches_count)
         {
             $split_on = $i
             $split_on_count = $matches_count
         }
     }
-    $Global:Delimiters.item($split_on)
+    $Delimiters.item($split_on)
 }
