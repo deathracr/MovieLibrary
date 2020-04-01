@@ -8,18 +8,18 @@ if ( -not ((Test-Path -Path "$here\$sut") -eq $true) )
 
 . "$(Split-Path -Parent $MyInvocation.MyCommand.Path)\settings.ps1"
 
-Describe "Set-SpecialCharTo" {
+Describe "Rename-SpecialCharTo" {
     Context "OMDB API Movie Names" {
         $TargetString = "Fur: An Imaginary Portrait of Diane Arbus"
         It "Cleans reserved filesystem chars from string." {
-            Set-SpecialCharTo -TargetString $TargetString -Set FileSystem -NewCharacter " " | Should Be "Fur  An Imaginary Portrait of Diane Arbus"
+            Rename-SpecialCharTo -TargetString $TargetString -Set FileSystem -NewCharacter " " | Should Be "Fur  An Imaginary Portrait of Diane Arbus"
         }
     }
     Context "Cleaning token to get 4 digit year value"{
         $TargetString = "#[()1978]-"
         $DisAllowedChars = "(",")","[","]","-","#"
         It "Removes unwanted character sets from string." {
-            Set-SpecialCharTo -TargetString $TargetString -Set Custom -Custom $DisAllowedChars | Should Be "1978"
+            Rename-SpecialCharTo -TargetString $TargetString -Set Custom -Custom $DisAllowedChars | Should Be "1978"
         }
     }
 }
